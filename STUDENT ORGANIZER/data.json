@@ -1,0 +1,44 @@
+{
+    "tasks": [],
+    "notes": [
+        "dbms notes"
+    ],
+    "timetable": {
+        "Fri": [
+            {
+                "time": "5pm-6pm",
+                "subject": "Math"
+            },
+            {
+                "time": "7",
+                "subject": "java"
+            }
+        ]
+    },
+    "grades": [
+        {
+            "subject": "Java",
+            "grade": 85.0
+        },
+        {
+            "subject": "math",
+            "grade": 100.0
+        },
+        {
+            "subject": "dbms",
+            "grade": 8.9
+        }
+    ],
+    "quotes": [
+        "You are capable of amazing things!",
+        "Keep going, you\u2019re doing great \ud83d\udc96",
+        "Stay soft. Stay strong.",
+        "Little steps every day \ud83c\udf38"
+    ],
+    "reminders": [
+        {
+            "message": "Water plants",
+            "time": "09:30"
+        }
+    ]
+}

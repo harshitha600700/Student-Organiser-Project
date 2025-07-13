@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Organizer</title>
+    <link id="themeStylesheet" rel="stylesheet" href="/static/kawaii.css">
+    <script src="/static/theme.js" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <h1>📒 Student Organizer</h1>
+    </header>
+
+    <div class="sidebar">
+        <a href="#quote">💬 Quote</a>
+        <a href="#tasks">📝 Tasks</a>
+        <a href="#notes">📓 Notes</a>
+        <a href="#timetable">📅 Timetable</a>
+        <a href="#grades">📊 Grades</a>
+        <a href="#reminders">⏰ Reminders</a>
+        <a href="#pomodoro">🍅 Pomodoro</a>
+        <select id="themeSelector">
+            <option value="kawaii">🎀 Kawaii</option>
+            <option value="light">🌞 Light</option>
+            <option value="dark">🌙 Dark</option>
+        </select>
+    </div>
+
+    <div class="main">
+        <div class="grid">
+
+            <section id="quote">
+                <h2>💬 Daily Quote</h2>
+                <p>{{ quote }}</p>
+            </section>
+
+            <section id="tasks">
+                <h2>📝 Tasks</h2>
+                <form action="/add_task" method="post">
+                    <input type="text" name="task" required placeholder="Enter task">
+                    <input type="date" name="due" required>
+                    <button>Add Task</button>
+                </form>
+                <ul>
+                    {% for t in tasks %}
+                    <li>{{ t.task }} (Due: {{ t.due }}) 
+                        <a href="/delete_task/{{ loop.index0 }}">❌</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section id="notes">
+                <h2>📓 Notes</h2>
+                <form action="/add_note" method="post">
+                    <textarea name="note" rows="3" placeholder="Write your note here" required></textarea>
+                    <button>Add Note</button>
+                </form>
+                <ul>
+                    {% for n in notes %}
+                    <li>{{ n }} <a href="/delete_note/{{ loop.index0 }}">❌</a></li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section id="timetable">
+                <h2>📅 Weekly Timetable</h2>
+                <form action="/add_slot" method="post">
+                    <select name="day">
+                        <option>Mon</option><option>Tue</option><option>Wed</option>
+                        <option>Thu</option><option>Fri</option><option>Sat</option><option>Sun</option>
+                    </select>
+                    <input type="text" name="time" placeholder="Time (e.g. 9-10am)" required>
+                    <input type="text" name="subject" placeholder="Subject" required>
+                    <button>Add Slot</button>
+                </form>
+                {% for day, slots in timetable.items() %}
+                <h4>{{ day }}</h4>
+                <ul>
+                    {% for s in slots %}
+                    <li>{{ s.time }} - {{ s.subject }}</li>
+                    {% endfor %}
+                </ul>
+                {% endfor %}
+            </section>
+
+            <section id="grades">
+                <h2>📊 Grade Tracker</h2>
+                <form action="/add_grade" method="post">
+                    <input type="text" name="subject" required placeholder="Subject">
+                    <input type="number" step="0.1" name="grade" required placeholder="Grade">
+                    <button>Add</button>
+                </form>
+                <ul>
+                    {% for g in grades %}
+                    <li>{{ g.subject }}: {{ g.grade }}</li>
+                    {% endfor %}
+                </ul>
+                <p><strong>Average Grade:</strong> {{ average }}</p>
+            </section>
+
+            <section id="reminders">
+                <h2>⏰ Reminders</h2>
+                <form action="/add_reminder" method="post">
+                    <input type="text" name="message" placeholder="Reminder" required>
+                    <input type="time" name="time" required>
+                    <button>Add</button>
+                </form>
+                <ul>
+                    {% for r in reminders %}
+                    <li>{{ r.time }} - {{ r.message }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section id="pomodoro">
+                <h2>🍅 Pomodoro Timer</h2>
+                <div id="timer-circle">
+                    <span id="timer-text">25:00</span>
+                </div>
+                <button onclick="startTimer()">▶️ Start</button>
+                <button onclick="pauseTimer()">⏸ Pause</button>
+                <button onclick="resetTimer()">🔄 Reset</button>
+            </section>
+
+        </div>
+    </div>
+</body>
+</html>
